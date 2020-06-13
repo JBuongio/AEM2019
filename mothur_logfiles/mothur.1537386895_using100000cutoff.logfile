@@ -1,0 +1,75 @@
+Linux version
+
+Using ReadLine
+
+Running 64Bit Version
+
+mothur v.1.39.4
+Last updated: 3/6/2017
+
+by
+Patrick D. Schloss
+
+Department of Microbiology & Immunology
+University of Michigan
+http://www.mothur.org
+
+When using, please cite:
+Schloss, P.D., et al., Introducing mothur: Open-source, platform-independent, community-supported software for describing and comparing microbial communities. Appl Environ Microbiol, 2009. 75(23):7537-41.
+
+Distributed under the GNU General Public License
+
+Type 'help()' for information on the commands that are available
+
+For questions and analysis support, please visit our forum at https://www.mothur.org/forum
+
+Type 'quit()' to exit program
+Interactive Mode
+
+
+mothur > normalize.shared(shared=Shared_all.shared, norm=100000)
+AB-0-1 contains 24. Eliminating.
+AC-2-5-6 contains 60360. Eliminating.
+AC2-0-1 contains 28308. Eliminating.
+AC2-1-2 contains 71101. Eliminating.
+AC2-11-12 contains 19455. Eliminating.
+AC2-12-13 contains 14821. Eliminating.
+AC2-15-16 contains 28743. Eliminating.
+AC2-16-17 contains 21640. Eliminating.
+Normalizing to 100000.
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm.shared
+
+
+mothur > system(sed '/AB-2-17-18\|AB-2-16-17\|AB-2-2-3\|AB-2-14-15\|AB-2-3-4\|AB-4-5\|AC-1-8-9\|AB2-9-10\|AB-5-6\|AB-1-2\|AB-2-3\|AB-8-9\|AB-2-1-2\|AB-10-11\|AC2-10-11\|AB2-0-1\|AB-2-18-19\|AC2-2-3\|AB-14-15\|AB-9-10\|AB-7-8\|AB-13-14\|AB-2-13-14\|AB2-10-11/d' Shared_all.0.03.norm.shared > Shared_all.0.03.norm.highCov.shared 
+[ERROR]: You are missing )
+Invalid.
+
+mothur > system(sed '/AB-2-17-18\|AB-2-16-17\|AB-2-2-3\|AB-2-14-15\|AB-2-3-4\|AB-4-5\|AC-1-8-9\|AB2-9-10\|AB-5-6\|AB-1-2\|AB-2-3\|AB-8-9\|AB-2-1-2\|AB-10-11\|AC2-10-11\|AB2-0-1\|AB-2-18-19\|AC2-2-3\|AB-14-15\|AB-9-10\|AB-7-8\|AB-13-14\|AB-2-13-14\|AB2-10-11/d' Shared_all.0.03.norm.shared > Shared_all.0.03.norm.highCov.shared)
+
+mothur > system(wc -l Shared_all.0.03.norm.highCov.shared)
+35 Shared_all.0.03.norm.highCov.shared
+
+
+mothur > make.biom(shared=Shared_all.0.03.norm.highCov.shared, constaxonomy=Sva_All.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.unique_list.0.03.cons.taxonomy)
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm.highCov.0.03.biom
+
+
+mothur > biom.info(biom=Shared_all.0.03.norm.highCov.0.03.biom, label=0.03)
+
+0.03
+
+It took 11 create mothur files from your biom file.
+
+
+Output File Names: 
+Shared_all.0.03.norm.highCov.0.03.0.03.shared
+Shared_all.0.03.norm.highCov.0.03.0.03.cons.taxonomy
+Shared_all.0.03.norm.highCov.0.03.0.03.cons.tax.summary
+
+quitting mothur

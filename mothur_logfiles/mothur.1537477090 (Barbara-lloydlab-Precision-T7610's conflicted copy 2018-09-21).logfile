@@ -1,0 +1,49 @@
+Linux version
+
+Using ReadLine
+
+Running 64Bit Version
+
+mothur v.1.39.4
+Last updated: 3/6/2017
+
+by
+Patrick D. Schloss
+
+Department of Microbiology & Immunology
+University of Michigan
+http://www.mothur.org
+
+When using, please cite:
+Schloss, P.D., et al., Introducing mothur: Open-source, platform-independent, community-supported software for describing and comparing microbial communities. Appl Environ Microbiol, 2009. 75(23):7537-41.
+
+Distributed under the GNU General Public License
+
+Type 'help()' for information on the commands that are available
+
+For questions and analysis support, please visit our forum at https://www.mothur.org/forum
+
+Type 'quit()' to exit program
+Interactive Mode
+
+
+mothur > make.biom(shared=Shared_all.0.03.norm_60000_90cov.shared, constaxonomy=Sva_All.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.unique_list.0.03.cons.taxonomy)
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm_60000_90cov.0.03.biom
+
+
+mothur > biom.info(biom=Shared_all.0.03.norm_60000_90cov.0.03.biom, label=0.03)
+
+0.03
+
+It took 7 create mothur files from your biom file.
+
+
+Output File Names: 
+Shared_all.0.03.norm_60000_90cov.0.03.0.03.shared
+Shared_all.0.03.norm_60000_90cov.0.03.0.03.cons.taxonomy
+Shared_all.0.03.norm_60000_90cov.0.03.0.03.cons.tax.summary
+
+quitting mothur

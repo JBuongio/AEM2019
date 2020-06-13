@@ -1,0 +1,1251 @@
+# These steps to be taken after you process your data through the traditional mothur SOP. A great explanation of what coverage and normalization is can be found here:https://rstudio-pubs-static.s3.amazonaws.com/343261_3b24de298b36417c9617ca98087f04c4.html#normalization  I've annotated commands below so you can follow my troubleshooting. The troubleshooting at the end will take you through finding the libraries that have the best coverage. With increasing library-size cut-offs, you will lose libraries, so be mindful about the trade-off associated with getting better coverage. After I annotated this, I decided to go with the 100,000 cutoff because it provided the highest number of libraries total making my cut-offs for coverage and library size. --Joy
+
+Linux version
+
+Using ReadLine
+
+Running 64Bit Version
+
+mothur v.1.39.4
+Last updated: 3/6/2017
+
+by
+Patrick D. Schloss
+
+Department of Microbiology & Immunology
+University of Michigan
+http://www.mothur.org
+
+When using, please cite:
+Schloss, P.D., et al., Introducing mothur: Open-source, platform-independent, community-supported software for describing and comparing microbial communities. Appl Environ Microbiol, 2009. 75(23):7537-41.
+
+Distributed under the GNU General Public License
+
+Type 'help()' for information on the commands that are available
+
+For questions and analysis support, please visit our forum at https://www.mothur.org/forum
+
+Type 'quit()' to exit program
+Interactive Mode
+
+
+mothur > system(ls) #Make sure your working directory has the files you need. Here, I have my shared file that will be the basis of normalization. 
+commandScreen.output
+mothur.1537381059.logfile
+Shared_all.shared
+
+
+mothur > summary.single(shared=Shared_all.shared, label=0.03, calc=nseqs-sobs-coverage) # This will spit out a file containing the number of sequences, observed OTUs, and library coverage (Good's coverage) for the starting shared file, prior to normalization.
+
+Processing group AB-0-1
+
+0.03
+
+Processing group AB-1-0-1
+
+0.03
+
+Processing group AB-1-2
+
+0.03
+
+Processing group AB-10-11
+
+0.03
+
+Processing group AB-11-12
+
+0.03
+
+Processing group AB-12-13
+
+0.03
+
+Processing group AB-13-14
+
+0.03
+
+Processing group AB-14-15
+
+0.03
+
+Processing group AB-2-1-2
+
+0.03
+
+Processing group AB-2-13-14
+
+0.03
+
+Processing group AB-2-14-15
+
+0.03
+
+Processing group AB-2-16-17
+
+0.03
+
+Processing group AB-2-17-18
+
+0.03
+
+Processing group AB-2-18-19
+
+0.03
+
+Processing group AB-2-2-3
+
+0.03
+
+Processing group AB-2-3
+
+0.03
+
+Processing group AB-2-3-4
+
+0.03
+
+Processing group AB-2-4-5
+
+0.03
+
+Processing group AB-3-4
+
+0.03
+
+Processing group AB-4-5
+
+0.03
+
+Processing group AB-5-6
+
+0.03
+
+Processing group AB-6-7
+
+0.03
+
+Processing group AB-7-8
+
+0.03
+
+Processing group AB-8-9
+
+0.03
+
+Processing group AB-9-10
+
+0.03
+
+Processing group AB2-0-1
+
+0.03
+
+Processing group AB2-10-11
+
+0.03
+
+Processing group AB2-12-13
+
+0.03
+
+Processing group AB2-5-6
+
+0.03
+
+Processing group AB2-6-7
+
+0.03
+
+Processing group AB2-7-8
+
+0.03
+
+Processing group AB2-8-9
+
+0.03
+
+Processing group AB2-9-10
+
+0.03
+
+Processing group AC-1-0-1
+
+0.03
+
+Processing group AC-1-1-2
+
+0.03
+
+Processing group AC-1-10-11
+
+0.03
+
+Processing group AC-1-11-12
+
+0.03
+
+Processing group AC-1-12-13
+
+0.03
+
+Processing group AC-1-13-14
+
+0.03
+
+Processing group AC-1-15-16
+
+0.03
+
+Processing group AC-1-17-18
+
+0.03
+
+Processing group AC-1-18-19
+
+0.03
+
+Processing group AC-1-2-3
+
+0.03
+
+Processing group AC-1-3-4
+
+0.03
+
+Processing group AC-1-5-6
+
+0.03
+
+Processing group AC-1-6-7
+
+0.03
+
+Processing group AC-1-7-8
+
+0.03
+
+Processing group AC-1-8-9
+
+0.03
+
+Processing group AC-2-17-18
+
+0.03
+
+Processing group AC-2-19-20
+
+0.03
+
+Processing group AC-2-5-6
+
+0.03
+
+Processing group AC-2-9-10
+
+0.03
+
+Processing group AC2-0-1
+
+0.03
+
+Processing group AC2-1-2
+
+0.03
+
+Processing group AC2-10-11
+
+0.03
+
+Processing group AC2-11-12
+
+0.03
+
+Processing group AC2-12-13
+
+0.03
+
+Processing group AC2-13-14
+
+0.03
+
+Processing group AC2-15-16
+
+0.03
+
+Processing group AC2-16-17
+
+0.03
+
+Processing group AC2-2-3
+
+0.03
+
+Processing group AC2-3-4
+
+0.03
+
+Processing group AC2-4-5
+
+0.03
+
+Processing group AC2-6-7
+
+0.03
+
+Processing group AC2-7-8
+
+0.03
+
+Processing group AC2-8-9
+
+0.03
+
+Output File Names: 
+Shared_all.groups.summary
+
+
+mothur > system(ls) #As you can see, it made a bunhc of files, most of which you do not need. But, the *groups.summary file is important. Open it up in Excel and make a histogram to see what you sequence distribution is across libraries and what your average Good's coverage is. This will help you troubleshoot the next part.
+commandScreen.output
+mothur.1537381059.logfile
+Shared_all.AB-0-1.rabund
+Shared_all.AB-10-11.rabund
+Shared_all.AB-1-0-1.rabund
+Shared_all.AB-11-12.rabund
+Shared_all.AB-12-13.rabund
+Shared_all.AB-1-2.rabund
+Shared_all.AB-13-14.rabund
+Shared_all.AB-14-15.rabund
+Shared_all.AB2-0-1.rabund
+Shared_all.AB2-10-11.rabund
+Shared_all.AB2-12-13.rabund
+Shared_all.AB-2-1-2.rabund
+Shared_all.AB-2-13-14.rabund
+Shared_all.AB-2-14-15.rabund
+Shared_all.AB-2-16-17.rabund
+Shared_all.AB-2-17-18.rabund
+Shared_all.AB-2-18-19.rabund
+Shared_all.AB-2-2-3.rabund
+Shared_all.AB-2-3-4.rabund
+Shared_all.AB-2-3.rabund
+Shared_all.AB-2-4-5.rabund
+Shared_all.AB2-5-6.rabund
+Shared_all.AB2-6-7.rabund
+Shared_all.AB2-7-8.rabund
+Shared_all.AB2-8-9.rabund
+Shared_all.AB2-9-10.rabund
+Shared_all.AB-3-4.rabund
+Shared_all.AB-4-5.rabund
+Shared_all.AB-5-6.rabund
+Shared_all.AB-6-7.rabund
+Shared_all.AB-7-8.rabund
+Shared_all.AB-8-9.rabund
+Shared_all.AB-9-10.rabund
+Shared_all.AC-1-0-1.rabund
+Shared_all.AC-1-10-11.rabund
+Shared_all.AC-1-11-12.rabund
+Shared_all.AC-1-12-13.rabund
+Shared_all.AC-1-1-2.rabund
+Shared_all.AC-1-13-14.rabund
+Shared_all.AC-1-15-16.rabund
+Shared_all.AC-1-17-18.rabund
+Shared_all.AC-1-18-19.rabund
+Shared_all.AC-1-2-3.rabund
+Shared_all.AC-1-3-4.rabund
+Shared_all.AC-1-5-6.rabund
+Shared_all.AC-1-6-7.rabund
+Shared_all.AC-1-7-8.rabund
+Shared_all.AC-1-8-9.rabund
+Shared_all.AC2-0-1.rabund
+Shared_all.AC2-10-11.rabund
+Shared_all.AC2-11-12.rabund
+Shared_all.AC2-12-13.rabund
+Shared_all.AC2-1-2.rabund
+Shared_all.AC2-13-14.rabund
+Shared_all.AC2-15-16.rabund
+Shared_all.AC2-16-17.rabund
+Shared_all.AC-2-17-18.rabund
+Shared_all.AC-2-19-20.rabund
+Shared_all.AC2-2-3.rabund
+Shared_all.AC2-3-4.rabund
+Shared_all.AC2-4-5.rabund
+Shared_all.AC-2-5-6.rabund
+Shared_all.AC2-6-7.rabund
+Shared_all.AC2-7-8.rabund
+Shared_all.AC2-8-9.rabund
+Shared_all.AC-2-9-10.rabund
+Shared_all.groups_before_norm.summary
+Shared_all.shared
+Sva_All.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.unique_list.0.03.cons.taxonomy
+
+
+mothur > normalize.shared(shared=Shared_all.shared, norm=100000) # This command allows you to manually choose the library size (by number of sequences) that you normalize to. I saw that most of my libraries were greater than 100,000 sequences in size, so I started here. As you can see below, many libraries are below is cut off (Geez Louise, look at AB-0-1! Only 24 sequences! Lame.)
+AB-0-1 contains 24. Eliminating.
+AC-2-5-6 contains 60360. Eliminating.
+AC2-0-1 contains 28308. Eliminating.
+AC2-1-2 contains 71101. Eliminating.
+AC2-11-12 contains 19455. Eliminating.
+AC2-12-13 contains 14821. Eliminating.
+AC2-15-16 contains 28743. Eliminating.
+AC2-16-17 contains 21640. Eliminating.
+Normalizing to 100000.
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm.shared
+
+
+mothur > summary.single(shared=Shared_all.0.03.norm.shared, label=0.03, calc=nseqs-sobs-coverage) #Now, let's have a look at what this normalization did to our coverage. The golden standard is 0.95, or 95% coverage. How many of your libraries are above or below this threshold at the 100,000 sequence cut off? If it is a whole lot, let's try increasing our sequence cut-off. In the case of 100,000 sequences, only 34/58 (58%) had decent coverage values.
+
+Processing group AB-1-0-1
+
+0.03
+
+Processing group AB-1-2
+
+0.03
+
+Processing group AB-10-11
+
+0.03
+
+Processing group AB-11-12
+
+0.03
+
+Processing group AB-12-13
+
+0.03
+
+Processing group AB-13-14
+
+0.03
+
+Processing group AB-14-15
+
+0.03
+
+Processing group AB-2-1-2
+
+0.03
+
+Processing group AB-2-13-14
+
+0.03
+
+Processing group AB-2-14-15
+
+0.03
+
+Processing group AB-2-16-17
+
+0.03
+
+Processing group AB-2-17-18
+
+0.03
+
+Processing group AB-2-18-19
+
+0.03
+
+Processing group AB-2-2-3
+
+0.03
+
+Processing group AB-2-3
+
+0.03
+
+Processing group AB-2-3-4
+
+0.03
+
+Processing group AB-2-4-5
+
+0.03
+
+Processing group AB-3-4
+
+0.03
+
+Processing group AB-4-5
+
+0.03
+
+Processing group AB-5-6
+
+0.03
+
+Processing group AB-6-7
+
+0.03
+
+Processing group AB-7-8
+
+0.03
+
+Processing group AB-8-9
+
+0.03
+
+Processing group AB-9-10
+
+0.03
+
+Processing group AB2-0-1
+
+0.03
+
+Processing group AB2-10-11
+
+0.03
+
+Processing group AB2-12-13
+
+0.03
+
+Processing group AB2-5-6
+
+0.03
+
+Processing group AB2-6-7
+
+0.03
+
+Processing group AB2-7-8
+
+0.03
+
+Processing group AB2-8-9
+
+0.03
+
+Processing group AB2-9-10
+
+0.03
+
+Processing group AC-1-0-1
+
+0.03
+
+Processing group AC-1-1-2
+
+0.03
+
+Processing group AC-1-10-11
+
+0.03
+
+Processing group AC-1-11-12
+
+0.03
+
+Processing group AC-1-12-13
+
+0.03
+
+Processing group AC-1-13-14
+
+0.03
+
+Processing group AC-1-15-16
+
+0.03
+
+Processing group AC-1-17-18
+
+0.03
+
+Processing group AC-1-18-19
+
+0.03
+
+Processing group AC-1-2-3
+
+0.03
+
+Processing group AC-1-3-4
+
+0.03
+
+Processing group AC-1-5-6
+
+0.03
+
+Processing group AC-1-6-7
+
+0.03
+
+Processing group AC-1-7-8
+
+0.03
+
+Processing group AC-1-8-9
+
+0.03
+
+Processing group AC-2-17-18
+
+0.03
+
+Processing group AC-2-19-20
+
+0.03
+
+Processing group AC-2-9-10
+
+0.03
+
+Processing group AC2-10-11
+
+0.03
+
+Processing group AC2-13-14
+
+0.03
+
+Processing group AC2-2-3
+
+0.03
+
+Processing group AC2-3-4
+
+0.03
+
+Processing group AC2-4-5
+
+0.03
+
+Processing group AC2-6-7
+
+0.03
+
+Processing group AC2-7-8
+
+0.03
+
+Processing group AC2-8-9
+
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm.groups.summary
+
+
+mothur > normalize.shared(shared=Shared_all.shared, norm=150000) #As you can see, more libraries are eliminated when we increase our cut-off. But let's see if this is worth it with a tradeoff in coverage below.
+AB-0-1 contains 24. Eliminating.
+AB-10-11 contains 118896. Eliminating.
+AB-14-15 contains 141747. Eliminating.
+AB-2-18-19 contains 144949. Eliminating.
+AB-7-8 contains 129492. Eliminating.
+AB-8-9 contains 103497. Eliminating.
+AB-9-10 contains 119284. Eliminating.
+AC-2-5-6 contains 60360. Eliminating.
+AC2-0-1 contains 28308. Eliminating.
+AC2-1-2 contains 71101. Eliminating.
+AC2-11-12 contains 19455. Eliminating.
+AC2-12-13 contains 14821. Eliminating.
+AC2-15-16 contains 28743. Eliminating.
+AC2-16-17 contains 21640. Eliminating.
+AC2-2-3 contains 138020. Eliminating.
+AC2-3-4 contains 136307. Eliminating.
+Normalizing to 150000.
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm.shared
+
+
+mothur > summary.single(shared=Shared_all.0.03.norm.shared, label=0.03, calc=nseqs-sobs-coverage) #Here again we are evaluating our coverage metric. In this case, where we raised the cut-off to 150,000 sequences, we now have 18/50 (36%) libraries with decent coverage. This is lower than before! Let's keep going. 
+
+Processing group AB-1-0-1
+
+0.03
+
+Processing group AB-1-2
+
+0.03
+
+Processing group AB-11-12
+
+0.03
+
+Processing group AB-12-13
+
+0.03
+
+Processing group AB-13-14
+
+0.03
+
+Processing group AB-2-1-2
+
+0.03
+
+Processing group AB-2-13-14
+
+0.03
+
+Processing group AB-2-14-15
+
+0.03
+
+Processing group AB-2-16-17
+
+0.03
+
+Processing group AB-2-17-18
+
+0.03
+
+Processing group AB-2-2-3
+
+0.03
+
+Processing group AB-2-3
+
+0.03
+
+Processing group AB-2-3-4
+
+0.03
+
+Processing group AB-2-4-5
+
+0.03
+
+Processing group AB-3-4
+
+0.03
+
+Processing group AB-4-5
+
+0.03
+
+Processing group AB-5-6
+
+0.03
+
+Processing group AB-6-7
+
+0.03
+
+Processing group AB2-0-1
+
+0.03
+
+Processing group AB2-10-11
+
+0.03
+
+Processing group AB2-12-13
+
+0.03
+
+Processing group AB2-5-6
+
+0.03
+
+Processing group AB2-6-7
+
+0.03
+
+Processing group AB2-7-8
+
+0.03
+
+Processing group AB2-8-9
+
+0.03
+
+Processing group AB2-9-10
+
+0.03
+
+Processing group AC-1-0-1
+
+0.03
+
+Processing group AC-1-1-2
+
+0.03
+
+Processing group AC-1-10-11
+
+0.03
+
+Processing group AC-1-11-12
+
+0.03
+
+Processing group AC-1-12-13
+
+0.03
+
+Processing group AC-1-13-14
+
+0.03
+
+Processing group AC-1-15-16
+
+0.03
+
+Processing group AC-1-17-18
+
+0.03
+
+Processing group AC-1-18-19
+
+0.03
+
+Processing group AC-1-2-3
+
+0.03
+
+Processing group AC-1-3-4
+
+0.03
+
+Processing group AC-1-5-6
+
+0.03
+
+Processing group AC-1-6-7
+
+0.03
+
+Processing group AC-1-7-8
+
+0.03
+
+Processing group AC-1-8-9
+
+0.03
+
+Processing group AC-2-17-18
+
+0.03
+
+Processing group AC-2-19-20
+
+0.03
+
+Processing group AC-2-9-10
+
+0.03
+
+Processing group AC2-10-11
+
+0.03
+
+Processing group AC2-13-14
+
+0.03
+
+Processing group AC2-4-5
+
+0.03
+
+Processing group AC2-6-7
+
+0.03
+
+Processing group AC2-7-8
+
+0.03
+
+Processing group AC2-8-9
+
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm.groups.summary
+
+
+mothur > normalize.shared(shared=Shared_all.shared, norm=200000) #normalizing this time to 200,000 sequences. Losing half of my libraries over here! =/
+AB-0-1 contains 24. Eliminating.
+AB-1-2 contains 151221. Eliminating.
+AB-10-11 contains 118896. Eliminating.
+AB-13-14 contains 152156. Eliminating.
+AB-14-15 contains 141747. Eliminating.
+AB-2-13-14 contains 195286. Eliminating.
+AB-2-14-15 contains 161274. Eliminating.
+AB-2-16-17 contains 181153. Eliminating.
+AB-2-17-18 contains 183478. Eliminating.
+AB-2-18-19 contains 144949. Eliminating.
+AB-2-2-3 contains 173485. Eliminating.
+AB-2-3 contains 170380. Eliminating.
+AB-3-4 contains 169158. Eliminating.
+AB-4-5 contains 165668. Eliminating.
+AB-5-6 contains 198420. Eliminating.
+AB-7-8 contains 129492. Eliminating.
+AB-8-9 contains 103497. Eliminating.
+AB-9-10 contains 119284. Eliminating.
+AB2-10-11 contains 191022. Eliminating.
+AC-2-5-6 contains 60360. Eliminating.
+AC2-0-1 contains 28308. Eliminating.
+AC2-1-2 contains 71101. Eliminating.
+AC2-10-11 contains 160160. Eliminating.
+AC2-11-12 contains 19455. Eliminating.
+AC2-12-13 contains 14821. Eliminating.
+AC2-15-16 contains 28743. Eliminating.
+AC2-16-17 contains 21640. Eliminating.
+AC2-2-3 contains 138020. Eliminating.
+AC2-3-4 contains 136307. Eliminating.
+Normalizing to 200000.
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm.shared
+
+
+mothur > summary.single(shared=Shared_all.0.03.norm.shared, label=0.03, calc=nseqs-sobs-coverage) #This time, 24/37 libraries have decent coverage, this is 64%. One more for the road.
+
+Processing group AB-1-0-1
+
+0.03
+
+Processing group AB-11-12
+
+0.03
+
+Processing group AB-12-13
+
+0.03
+
+Processing group AB-2-1-2
+
+0.03
+
+Processing group AB-2-3-4
+
+0.03
+
+Processing group AB-2-4-5
+
+0.03
+
+Processing group AB-6-7
+
+0.03
+
+Processing group AB2-0-1
+
+0.03
+
+Processing group AB2-12-13
+
+0.03
+
+Processing group AB2-5-6
+
+0.03
+
+Processing group AB2-6-7
+
+0.03
+
+Processing group AB2-7-8
+
+0.03
+
+Processing group AB2-8-9
+
+0.03
+
+Processing group AB2-9-10
+
+0.03
+
+Processing group AC-1-0-1
+
+0.03
+
+Processing group AC-1-1-2
+
+0.03
+
+Processing group AC-1-10-11
+
+0.03
+
+Processing group AC-1-11-12
+
+0.03
+
+Processing group AC-1-12-13
+
+0.03
+
+Processing group AC-1-13-14
+
+0.03
+
+Processing group AC-1-15-16
+
+0.03
+
+Processing group AC-1-17-18
+
+0.03
+
+Processing group AC-1-18-19
+
+0.03
+
+Processing group AC-1-2-3
+
+0.03
+
+Processing group AC-1-3-4
+
+0.03
+
+Processing group AC-1-5-6
+
+0.03
+
+Processing group AC-1-6-7
+
+0.03
+
+Processing group AC-1-7-8
+
+0.03
+
+Processing group AC-1-8-9
+
+0.03
+
+Processing group AC-2-17-18
+
+0.03
+
+Processing group AC-2-19-20
+
+0.03
+
+Processing group AC-2-9-10
+
+0.03
+
+Processing group AC2-13-14
+
+0.03
+
+Processing group AC2-4-5
+
+0.03
+
+Processing group AC2-6-7
+
+0.03
+
+Processing group AC2-7-8
+
+0.03
+
+Processing group AC2-8-9
+
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm.groups.summary
+
+
+mothur > normalize.shared(shared=Shared_all.shared, norm=220000) #When I look back at my summary output from pre-normalized data, I saw that the average number of sequences for libraries with good coverage was just over 220,000. Let's give this a try.
+AB-0-1 contains 24. Eliminating.
+AB-1-2 contains 151221. Eliminating.
+AB-10-11 contains 118896. Eliminating.
+AB-13-14 contains 152156. Eliminating.
+AB-14-15 contains 141747. Eliminating.
+AB-2-13-14 contains 195286. Eliminating.
+AB-2-14-15 contains 161274. Eliminating.
+AB-2-16-17 contains 181153. Eliminating.
+AB-2-17-18 contains 183478. Eliminating.
+AB-2-18-19 contains 144949. Eliminating.
+AB-2-2-3 contains 173485. Eliminating.
+AB-2-3 contains 170380. Eliminating.
+AB-2-4-5 contains 215490. Eliminating.
+AB-3-4 contains 169158. Eliminating.
+AB-4-5 contains 165668. Eliminating.
+AB-5-6 contains 198420. Eliminating.
+AB-6-7 contains 216476. Eliminating.
+AB-7-8 contains 129492. Eliminating.
+AB-8-9 contains 103497. Eliminating.
+AB-9-10 contains 119284. Eliminating.
+AB2-10-11 contains 191022. Eliminating.
+AB2-6-7 contains 206947. Eliminating.
+AB2-7-8 contains 201046. Eliminating.
+AB2-8-9 contains 211891. Eliminating.
+AC-1-0-1 contains 215774. Eliminating.
+AC-1-15-16 contains 200298. Eliminating.
+AC-1-17-18 contains 206804. Eliminating.
+AC-2-5-6 contains 60360. Eliminating.
+AC2-0-1 contains 28308. Eliminating.
+AC2-1-2 contains 71101. Eliminating.
+AC2-10-11 contains 160160. Eliminating.
+AC2-11-12 contains 19455. Eliminating.
+AC2-12-13 contains 14821. Eliminating.
+AC2-13-14 contains 207175. Eliminating.
+AC2-15-16 contains 28743. Eliminating.
+AC2-16-17 contains 21640. Eliminating.
+AC2-2-3 contains 138020. Eliminating.
+AC2-3-4 contains 136307. Eliminating.
+Normalizing to 220000.
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm.shared
+
+
+mothur > summary.single(shared=Shared_all.0.03.norm.shared, label=0.03, calc=nseqs-sobs-coverage) #Now 20/28 of the surviving libraries have decent coverage, which is 71%. I'm happy with this. 
+
+Processing group AB-1-0-1
+
+0.03
+
+Processing group AB-11-12
+
+0.03
+
+Processing group AB-12-13
+
+0.03
+
+Processing group AB-2-1-2
+
+0.03
+
+Processing group AB-2-3-4
+
+0.03
+
+Processing group AB2-0-1
+
+0.03
+
+Processing group AB2-12-13
+
+0.03
+
+Processing group AB2-5-6
+
+0.03
+
+Processing group AB2-9-10
+
+0.03
+
+Processing group AC-1-1-2
+
+0.03
+
+Processing group AC-1-10-11
+
+0.03
+
+Processing group AC-1-11-12
+
+0.03
+
+Processing group AC-1-12-13
+
+0.03
+
+Processing group AC-1-13-14
+
+0.03
+
+Processing group AC-1-18-19
+
+0.03
+
+Processing group AC-1-2-3
+
+0.03
+
+Processing group AC-1-3-4
+
+0.03
+
+Processing group AC-1-5-6
+
+0.03
+
+Processing group AC-1-6-7
+
+0.03
+
+Processing group AC-1-7-8
+
+0.03
+
+Processing group AC-1-8-9
+
+0.03
+
+Processing group AC-2-17-18
+
+0.03
+
+Processing group AC-2-19-20
+
+0.03
+
+Processing group AC-2-9-10
+
+0.03
+
+Processing group AC2-4-5
+
+0.03
+
+Processing group AC2-6-7
+
+0.03
+
+Processing group AC2-7-8
+
+0.03
+
+Processing group AC2-8-9
+
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm.groups.summary
+
+
+
+mothur > system(sed '/AB2-0-1\|AC-1-8-9\|AB-2-1-2\|AC-1-7-8\|AC-1-6-7\|AB2-9-10\|AC-1-5-6\|AC-1-12-13/d' Shared_all.0.03.norm.shared > Shared_all.0.03.norm.highCov.shared) #What we need to do now is remove those libraries that were identified to have low coverage. We can do this with sed in the terminal. 
+
+mothur > system(ls *highCov.shared) #Let's make sure it made the file
+Shared_all.0.03.norm.highCov.shared
+
+
+mothur > system(wc -l Shared_all.0.03.norm.highCov.shared) #Let's count the number of lines to make sure that only 8 libraries were removed. The initial file had 28 libraries plus a header (29 lines). We used sed to remove 8 lines, so there should be 21 lines remaining. Oh, look! It worked! Happy dance! We just used the sed program in the mothur program. [Yo dawg, I heard you like programs <- early 2000's meme]
+21 Shared_all.0.03.norm.highCov.shared
+
+
+mothur > make.biom(shared=Shared_all.0.03.norm.highCov.shared, constaxonomy=Sva_All.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.unique_list.0.03.cons.taxonomy) #This biom file is needed to make the new summary file from which we can calculate relative abundance at all taxaonomic levels.
+0.03
+
+Output File Names: 
+Shared_all.0.03.norm.highCov.0.03.biom
+
+
+mothur > biom.info(biom=Shared_all.0.03.norm.highCov.0.03.biom, label=0.03) #This spits out a new summary file! Woot! You did it. 
+
+0.03
+
+It took 15 create mothur files from your biom file.
+
+
+Output File Names: 
+Shared_all.0.03.norm.highCov.0.03.0.03.shared
+Shared_all.0.03.norm.highCov.0.03.0.03.cons.taxonomy
+Shared_all.0.03.norm.highCov.0.03.0.03.cons.tax.summary
+
+quitting mothur
